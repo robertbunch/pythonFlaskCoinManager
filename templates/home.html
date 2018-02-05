@@ -20,7 +20,9 @@
 				<h1>You need to add some coins!</h1>
 			</div>
 		{% else %}
-			<div id="piechart" class="col-sm-7"></div>
+			<div id="piechart" class="col-sm-7">
+				<div id="user-total" class="col-sm-12"></div>
+			</div>
 		{% endif %}		
 		<div class="col-sm-3">
 			<form action="/add-coin" method="post" class="form-horizontal" role="form">
@@ -51,6 +53,7 @@
 		</div> <!-- /.form-group -->
 
 		<div id="user-key" class="col-sm-12"></div>
+		
 
 </div>    
 
@@ -114,15 +117,19 @@
 		}
 
 		function createKey(){
+			let totalValue = 0
 			user_coins.forEach(function(coin,i){
+				let thisCoinValue = Math.round((1/coin_prices[coin[4]]) * Number(coin[1]))
 				$('#user-key').append(`
 					<div class="user-coin">
 						<div class="coin-name">${coin[3]}</div>
 						<div style="margin: 5px 0px; border-bottom: solid 5px ${colors[i]}"></div>
-						<div class="coin-price">$${Math.round(1/coin_prices[coin[4]])}</div>
+						<div class="coin-price">$${thisCoinValue}</div>
 					</div>
 				`)
+				totalValue += thisCoinValue
 			})
+			$('#user-total').html(`$${totalValue}`)
 		}
 	}); 
 
