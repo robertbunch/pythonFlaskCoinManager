@@ -1,0 +1,136 @@
+.container{
+	position: relative;
+}
+
+#main{
+	margin-top: 150px;
+}
+
+#chosen-price, #chosen-amount{
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 15px;
+    font-weight: bold;	
+}
+
+body{
+	color:#fff;
+}
+
+.coins-options input{
+	margin-right: 10px;
+}
+
+.coin-price{
+	padding: 10px;
+	color: #d43f3a;
+}
+.user-coin{
+	margin: 0px 10px;
+}
+
+.user-coin .coin-price{
+	padding: 0px;
+}
+
+.coin-price,.user-coin {
+	display: inline-block;
+    text-align: center;
+    font-size: 18px;	
+}
+
+header{
+	position: absolute;
+}
+
+/*scroll effect*/
+.navbar-trans {
+  background-color: transparent;
+  border: none;
+  transition: top 1s ease;
+}
+ 
+/*double row*/
+.navbar-doublerow > .navbar{
+	display: block;	
+	padding: 0px auto;
+	margin: 0px auto;
+	min-height: 25px;
+}
+.navbar-doublerow .nav{
+	padding: 0px auto;
+}
+.navbar-doublerow .dividline{
+  margin: 5px 100px;
+  padding-top: 1px;
+  background-color: inherit;
+}
+/*top nav*/
+.navbar-doublerow .navbar-top ul>li>a {
+	padding: 10px auto;
+	font-size: 12px;
+} 
+/*down nav*/
+.navbar-doublerow .navbar-down .navbar-brand {
+	padding: 0px auto;
+	float: left;
+	color: #fff;
+	font-size: 32px;
+}
+.navbar-doublerow .navbar-down ul>li>a{
+	font-size: 16px;
+	color: #fff;
+	transition: border-bottom .2s ease-in , transform .2s ease-in-out;
+}
+.navbar-doublerow .navbar-down ul>li>a:hover{
+	border-bottom: 1px solid #fff;
+	color: #fff;
+}
+.navbar-doublerow .navbar-down .dropdown{
+    padding: 5px;
+    color: #000;
+}
+.navbar-doublerow .navbar-down .dropdown ul>li>a,
+.navbar-doublerow .navbar-down .dropdown ul>li>a:hover{
+  color: #000;
+  border-bottom: none;
+}
+.navbar-doublerow.navbar-trans.afterscroll {
+}	
+.navbar-doublerow.navbar-trans.afterscroll {
+   top:-150px;
+}	
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+}
+.flex-item {
+}
+
+/*fontcolor*/
+.light-grey {color:#000!important;background-color:#E6E9ED!important}
+
+ul.nav.navbar-nav > li > a {
+	color: #fff;
+}
+
+ul.nav.navbar-nav > li > a:hover {
+	color: #337ab7;
+}
+
+
+path.slice{
+	stroke-width:2px;
+}
+polyline{
+	opacity: .3;
+	stroke: black;
+	stroke-width: 2px;
+	fill: none;
+} 
+svg text.percent{
+	fill:white;
+	text-anchor:middle;
+	font-size:12px;
+}

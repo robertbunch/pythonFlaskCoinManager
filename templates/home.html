@@ -1,0 +1,134 @@
+
+{% extends 'template.html' %}
+{% block main %}
+
+<div id="home" class="row text-center">
+	<div class="col-sm-12"><button class="btn btn-warning" id="show-current">See current prices</button></div>
+	<div class="col-sm-12 prices hidden">
+		{% for key,value in coin_prices_jinja.iteritems(): %}
+			<div class="coin-price">
+				<button class="btn btn-info">
+					{{key}}<br />${{(1/value)|round}}
+				</button>
+			</div>
+		{% endfor %}
+	</div>
+
+	<div class="col-sm-12">
+		{% if user_coins_jinja|length == 0: %}
+			<div class="col-sm-7">
+				<h1>You need to add some coins!</h1>
+			</div>
+		{% else %}
+			<div id="piechart" class="col-sm-7"></div>
+		{% endif %}		
+		<div class="col-sm-3">
+			<form action="/add-coin" method="post" class="form-horizontal" role="form">
+				<h2>Add Coin</h2>
+				<div class="form-group">
+					<label for="symbol" class="col-sm-3 control-label">Coin</label>
+					<div class="col-sm-9">
+						<input name="symbol" type="text" id="symbol" placeholder="symbol" class="form-control">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="amount" class="col-sm-3 control-label">Amount</label>
+					<div class="col-sm-9">
+						<input name="amount" type="number" step="0.00001" id="amount" placeholder="amount" class="form-control">
+					</div>
+				</div>
+
+				<div id="chosen-price"></div>
+				<div id="chosen-amount"></div>
+
+				<div class="form-group">
+					<div class="col-sm-12">
+						<button type="submit" class="btn btn-primary btn-block">Add coin</button>
+					</div>
+				</div>
+			</form> <!-- /form -->
+		</div> <!-- /.form-group -->
+
+		<div id="user-key" class="col-sm-12"></div>
+
+</div>    
+
+
+
+
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="static/js/donut3D.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(()=>{
+		var coin_prices = {{ coin_prices|safe }};
+		var user_coins = {{ user_coins|safe }};
+		console.log(coin_prices)
+		console.log(user_coins)
+		var coin_symbols = []
+		for (var prop in coin_prices) {
+			coin_symbols.push(prop)
+		}
+		var chosenPrice = 0;
+		$( "#symbol" ).autocomplete({
+			source: coin_symbols,
+			select: function(e, ui) {
+				if (ui.item.value in coin_prices){
+					chosenPrice = Math.round(1/coin_prices[ui.item.value])
+					$('#chosen-price').html(`Current price of ${ui.item.value} is $${chosenPrice}`)
+				}
+			}          
+		});
+		$('#amount').change(function(){
+			var amount = $(this).val();
+			console.log(amount)
+			$('#chosen-amount').html(`Calculated value is $${chosenPrice * Number(amount)}`)
+		})
+
+		$('#show-current').click(()=>{
+			$('.prices').toggleClass('hidden')
+			console.log('clicked')
+		})
+
+		var colors=[
+			"#3366CC",
+			"#DC3912",
+			"#FF9900",
+			"#109618",
+			"#990099"
+		];
+
+		var svg = d3.select("#piechart").append("svg").attr("width",'700').attr("height",400).attr("id","chart");
+
+		svg.append("g").attr("id","salesDonut");
+
+		Donut3D.draw("salesDonut", getData(), 350, 150, 230, 150, 30, 0.3);
+
+		createKey()
+
+		function getData(){
+			return user_coins.map((coin,i)=>{ 
+				let usdValue = coin[1] * (1/coin_prices[coin[4]])
+				return {label:coin[3], value:usdValue, color:colors[i]};});
+		}
+
+		function createKey(){
+			user_coins.forEach(function(coin,i){
+				$('#user-key').append(`
+					<div class="user-coin">
+						<div class="coin-name">${coin[3]}</div>
+						<div style="margin: 5px 0px; border-bottom: solid 5px ${colors[i]}"></div>
+						<div class="coin-price">$${Math.round(1/coin_prices[coin[4]])}</div>
+					</div>
+				`)
+			})
+		}
+	}); 
+
+</script>
+
+</body>
+</html>
+
+{% endblock %}

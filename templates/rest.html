@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<script type="text/javascript">
+		
+	</script>
+
+</head>
+<body>
+
+	<h1>What were teh results of teh query</h1>
+	<table>
+	<thead>
+		<th>column</th>
+	</thead>
+	{% for row in data %}
+		<tr>
+			{% for column in row %}
+				<td>{{column}}</td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+	</table>
+
+</body>
+</html>
