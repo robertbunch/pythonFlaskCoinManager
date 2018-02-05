@@ -10,17 +10,21 @@ from flask_bcrypt import Bcrypt
 import requests
 import json
 
+# get config data
+from DB_Cred import DB_Cred
+db = DB_Cred()
+
 # create a Flask app and store it in "app"
 app = Flask(__name__)
 # create an instance of the mysql class
 mysql = MySQL()
 # Add to the app (Flask object) some config data for our connection
-app.config['MYSQL_DATABASE_USER'] = 'x'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'x'
+app.config['MYSQL_DATABASE_USER'] = db.user
+app.config['MYSQL_DATABASE_PASSWORD'] = db.password
 # The name of teh database we want to connect to at the DB server
-app.config['MYSQL_DATABASE_DB'] = 'coin_manager'
+app.config['MYSQL_DATABASE_DB'] = db.database
 # Where teh MYSQL server is at
-app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
+app.config['MYSQL_DATABASE_HOST'] = db.host
 # use the mysql object's method "init_app" and pass it the flask app object
 mysql.init_app(app)
 # create a bcrypt object from the bcrypt class, and pass it the flask app object
