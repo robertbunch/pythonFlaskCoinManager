@@ -11,20 +11,20 @@ import requests
 import json
 
 # get config data
-from DB_Cred import DB_Cred
-db = DB_Cred()
+from Config import Config
+config = Config()
 
 # create a Flask app and store it in "app"
 app = Flask(__name__)
 # create an instance of the mysql class
 mysql = MySQL()
 # Add to the app (Flask object) some config data for our connection
-app.config['MYSQL_DATABASE_USER'] = db.user
-app.config['MYSQL_DATABASE_PASSWORD'] = db.password
+app.config['MYSQL_DATABASE_USER'] = config.db_user
+app.config['MYSQL_DATABASE_PASSWORD'] = config.db_password
 # The name of teh database we want to connect to at the DB server
-app.config['MYSQL_DATABASE_DB'] = db.database
+app.config['MYSQL_DATABASE_DB'] = config.database
 # Where teh MYSQL server is at
-app.config['MYSQL_DATABASE_HOST'] = db.host
+app.config['MYSQL_DATABASE_HOST'] = config.db_host
 # use the mysql object's method "init_app" and pass it the flask app object
 mysql.init_app(app)
 # create a bcrypt object from the bcrypt class, and pass it the flask app object
@@ -230,6 +230,5 @@ def logout():
 	session.clear()	
 	return redirect('/login')
 
-
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run(host=config.app_host,port=config.app_port,debug=config.debug_on)
